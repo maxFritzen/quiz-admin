@@ -1,0 +1,44 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size:62.5%;
+
+
+
+  // @include respond(tab-port) { //width > 768
+  //   font-size: 85%;
+  // }
+}
+
+body {
+  background-color: $color-palette-1;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  //font-size: $m-size;
+  //line-height: 1.7rem;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+.container {
+
+
+}
+.game {
+ @include position-center;
+ width:100%;
+ margin: 2rem 0;
+}

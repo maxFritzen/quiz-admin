@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render Form component 1`] = `
+<form
+  className="form-horizontal"
+>
+  <Field
+    component={[Function]}
+    label="Quiz Title"
+    name="quizName"
+    type="text"
+  />
+  <FieldArray
+    component={[Function]}
+    name="questions"
+  />
+  <button
+    className="btn btn-primary"
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;
+
+exports[`Should render renderAlternatives component 1`] = `
+<ul>
+  <li>
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      Add Alternative
+    </button>
+  </li>
+</ul>
+`;
