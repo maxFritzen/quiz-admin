@@ -10,7 +10,6 @@ export default class Question extends React.Component {
     super(props);
     this.state = {
       selectValue: '',
-      alternativeValues: [], // TA BORT ? SELECT ANVÄNDER MEN KAN VÄL LIKA GÄRNA ANVÄNDA ALTERNATIVES
       alternatives: ['','']
     }
 
@@ -22,21 +21,6 @@ export default class Question extends React.Component {
     this.setState({
      alternatives: newArray
    }, () =>   console.log(this.state.alternatives));
-  }
-
-  handleSaveAlternative = (value) => {
-
-    //KOLLA SÅ INTE VALUE REDAN FINNS
-    if (value === '' || this.state.alternativeValues.includes(value)) {
-      console.log('error');
-    } else {
-      this.setState ({
-          alternativeValues: [
-            ...this.state.alternativeValues,
-            value
-          ]
-        });
-    }
   }
 
   handleSelectChange = (e) => {
@@ -86,7 +70,7 @@ export default class Question extends React.Component {
         <Select
           selectValue={this.state.selectValue}
           handleChange={this.handleSelectChange}
-          alternativeValues={this.state.alternativeValues}
+          alternatives={this.state.alternatives}
         />
       </div>
     );
