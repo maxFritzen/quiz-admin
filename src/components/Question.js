@@ -20,7 +20,7 @@ export default class Question extends React.Component {
     newArray[index] = e.target.value;
     this.setState({
      alternatives: newArray
-   }, () =>   console.log(this.state.alternatives));
+   });
   }
 
   handleSelectChange = (e) => {
@@ -30,22 +30,20 @@ export default class Question extends React.Component {
   }
 
   handleAddAlternative = () => {
-    const name = this.state.x;
     const newArray = this.state.alternatives;
     newArray.push('');
-    console.log(newArray);
     this.setState({
-      alternatives: newArray,
-      x: this.state.x +1
+      alternatives: newArray
     });
   };
 
   remove = (index) => {
-      // Filter out index to be removed
-    this.setState((prevState) => ({
-           alternatives: prevState.alternatives.filter((i) => i !== this.state.alternatives[index])
-         }));
-
+    // removes index from array, then sets alternatives to newArray.
+    const newArray = this.state.alternatives;
+    newArray.splice(index, 1);
+    this.setState({
+      alternatives: newArray
+    });
   }
 
   render() {
@@ -53,7 +51,12 @@ export default class Question extends React.Component {
 
     return (
       <div>
-        <h4>Question GÖR INPUT</h4>
+        <h4>Question</h4>
+        <input
+          value={this.props.value}
+          onChange={(e) => this.props.onChange(e, this.props.index)}
+          placeholder="Question"
+        />
         <ul>
           {alternatives.map((alternative, index) => (
               <li key={index}>
@@ -62,7 +65,7 @@ export default class Question extends React.Component {
                     value={this.state.alternatives[index]}
                     onChange={this.handleInputChange}
                  />
-                <button type="button" onClick={() => this.remove(index)}>remove alternative</button>
+                <button type="button" onClick={() => this.remove(index)}>Delete Alternative</button>
               </li>
           ))}
         </ul>

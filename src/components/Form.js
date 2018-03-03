@@ -6,35 +6,57 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfQuestions: 2
+      questions: ['', '']
     }
   }
 
-  handleAddQuestion = () => (
+  handleAddQuestion = () => {
+    const newArray = this.state.questions;
+    newArray.push('');
     this.setState({
-      numberOfQuestions: this.state.numberOfQuestions + 1
-    })
-  );
+      questions: newArray
+    });
+  };
+
+  handleInputChange = (e, index) => {
+    const newArray = this.state.questions;
+    newArray[index] = e.target.value;
+    this.setState({
+     questions: newArray
+   });
+  }
+
+  remove = (index) => {
+    const newArray = this.state.questions;
+    newArray.splice(index, 1);
+    this.setState({
+      questions: newArray
+    });
+  }
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log('values:', e)
+    console.log('values:')
   }
 
   render() {
-    const Questions = [];
-
-    for (let i= 0; i < this.state.numberOfQuestions; i++) {
-      Questions.push(<Question />);
-    }
+    const questions = this.state.questions;
     return (
       <form onSubmit={this.onSubmit}>
         FORM
-        Number of questions: {this.state.numberOfQuestions}
-        {Questions.map((question, index) => {
-          return <li key={index}>{question}</li>
-        })}
-        {/* {this.renderQuestions()} */}
+        <ul>
+          {questions.map((question, index) => (
+              <li key={index}>
+                 <Question
+                    index={index} // Används i remove
+                    value={this.state.questions[index]}
+                    onChange={this.handleInputChange}
+
+                 />
+                <button type="button" onClick={() => this.remove(index)}>Delete Question</button>
+              </li>
+          ))}
+        </ul>
         <button onClick={this.handleAddQuestion}>Add Question</button>
         <button type="submit">Save</button>
       </form>
