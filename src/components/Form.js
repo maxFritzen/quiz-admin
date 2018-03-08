@@ -75,7 +75,7 @@ class Form extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log('values:')
+    console.log('questions:', this.props.questions);
   }
 
   render() {

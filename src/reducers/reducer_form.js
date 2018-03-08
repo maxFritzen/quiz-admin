@@ -3,7 +3,10 @@ import {
   ONQUESTIONINPUT,
   ADDQUESTION,
   DELETEQUESTION,
-  ONALTERNATIVEINPUT
+  ONALTERNATIVEINPUT,
+  DELETEALTERNATIVE,
+  ADDALTERNATIVE,
+  SETCORRECTALTERNATIVE
  } from '../actions';
 
 // const defaultState = {
@@ -37,6 +40,20 @@ const defaultState = {
   ]
 }
 
+// const defaultState = {
+//   title: 'DEFAULT TITLE',
+//   questions: {
+//     byId: {
+//       "question1": {
+//         id: "question1",
+//         value: '',
+//         alternatives: []
+//
+//       }
+//     }
+//   }
+// }
+
 const newQuestion = {
   question: '',
   alternatives:['', ''],
@@ -48,7 +65,20 @@ export default (state = defaultState, action) => {
     case TEST:
       console.log('testing', action.payload);
       return state;
+
     // ALTERNATIVES
+    case SETCORRECTALTERNATIVE:
+    // console.log('SETCORRECTALTERNATIVE:', action.value, action.questionIndex);
+    return {
+      ...state,
+
+      questions: state.questions.map((question, i) =>
+        i === action.questionIndex
+        ? {...question, correctAlternative: action.value }
+        : question
+        )
+      }
+
     case ONALTERNATIVEINPUT:
     return {
       ...state,
@@ -65,7 +95,36 @@ export default (state = defaultState, action) => {
         : question
       )
     }
-  
+
+    case DELETEALTERNATIVE:
+    // questions: state.questions.filter((item, index) => index !== action.index)
+    return {
+      ...state,
+
+      questions: state.questions.map((question, i) =>
+        i === action.questionIndex
+        ? {...question, alternatives:
+          question.alternatives.filter((item, index) =>
+            index !== action.index
+          )
+        }
+        : question
+      )
+    }
+    case ADDALTERNATIVE:
+      return {
+        ...state,
+        questions: state.questions.map((question, i) =>
+          i === action.questionIndex
+          ? {...question, alternatives:
+            [
+              ...question.alternatives,
+              ''
+            ]
+          }
+          : question
+        )
+      }
     // console.log('ONALTERNATIVEINPUT', action.value, action.index, action.questionIndex);
     // // state.questions[action.questionIndex].alternatives[action.index] = action.value;
     // return {
@@ -84,7 +143,7 @@ export default (state = defaultState, action) => {
     // }
     // QUESTIONS
     case ADDQUESTION:
-      console.log('ADDQUESTION');
+      // console.log('ADDQUESTION');
 
       return {
         ...state,
@@ -94,7 +153,7 @@ export default (state = defaultState, action) => {
         ]
       }
     case DELETEQUESTION:
-      console.log('DELETEQUESTION:', action.index);
+      // console.log('DELETEQUESTION:', action.index);
       // const newQuestions = state.questions;
       // state.questions.splice(action.index, 1);
       //
@@ -107,8 +166,8 @@ export default (state = defaultState, action) => {
         questions: state.questions.filter((item, index) => index !== action.index)
       }
     case ONQUESTIONINPUT:{
-      console.log('ONQUESTIONINPUT:', action.value);
-      console.log(state);
+      // console.log('ONQUESTIONINPUT:', action.value);
+      // console.log(state);
       // state.questions[action.index].question = action.value;
 
       return { //  Borde kunna använda map och if-statement, som i editExpenses.
