@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Question from './Question';
-import { onQuestionInput, addQuestion, deleteQuestion } from '../actions';
+import { onQuestionInput, addQuestion, deleteQuestion, titleInput } from '../actions';
+import validate from './validate';
 
 class Form extends React.Component {
   constructor(props) {
@@ -12,18 +13,19 @@ class Form extends React.Component {
 
   handleAddQuestion = () => {
     this.props.addQuestion();
-
   };
 
   handleInputChange = (e, index) => {
     this.props.onChange(e.target.value, index);
-
   }
 
   remove = (index) => {
     this.props.deleteQuestion(index);
   }
 
+  onChange = (e) => {
+    this.props.titleInput(e.target.value);
+  }
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -31,13 +33,22 @@ class Form extends React.Component {
   }
 
   render() {
+    console.log('render form');
 
+    validate(this.props.form);
     const questions = this.props.questions;
 
     return (
       <form onSubmit={this.onSubmit}>
         FORM
-        <h3>{this.props.title}</h3>
+        <h3>
+            <input
+            value={this.props.title}
+            onChange={(e) => this.onChange(e)}
+            placeholder="Title"
+          />
+
+        </h3>
 
         <ul>
 
@@ -61,6 +72,7 @@ class Form extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  form: state.form,
   title: state.form.title,
   questions: state.form.questions
 });
@@ -68,7 +80,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onChange: (value, index) => dispatch(onQuestionInput(value, index)),
   addQuestion: () => dispatch(addQuestion()),
-  deleteQuestion: (index) => dispatch(deleteQuestion(index))
+  deleteQuestion: (index) => dispatch(deleteQuestion(index)),
+  titleInput: (value) => dispatch(titleInput(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -10,12 +10,16 @@ export const DELETEQUESTION = 'DELETEQUESTION';
 export const ONALTERNATIVEINPUT = 'ONALTERNATIVEINPUT';
 export const DELETEALTERNATIVE = 'DELETEALTERNATIVE';
 export const ADDALTERNATIVE = 'ADDALTERNATIVE';
+// SELECT
 export const SETCORRECTALTERNATIVE = 'SETCORRECTALTERNATIVE';
+// TITLE
+export const TITLEINPUT = 'TITLEINPUT';
 
-export const test = (id) => {
+// TITLE
+export const titleInput = (value) => {
   return {
-    type: TEST,
-    payload: id
+    type: TITLEINPUT,
+    value
   }
 }
 

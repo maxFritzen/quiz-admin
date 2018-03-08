@@ -6,11 +6,12 @@ import {
   ONALTERNATIVEINPUT,
   DELETEALTERNATIVE,
   ADDALTERNATIVE,
-  SETCORRECTALTERNATIVE
+  SETCORRECTALTERNATIVE,
+  TITLEINPUT
  } from '../actions';
 
 const defaultState = {
-  title: 'DEFAULT TITLE',
+  title: '',
   questions: [
      {
       "question": "",
@@ -33,7 +34,12 @@ const newQuestion = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-
+    // TITLE
+    case TITLEINPUT:
+    return {
+      ...state,
+      title: action.value
+    }
     // ALTERNATIVES
     case SETCORRECTALTERNATIVE:
     return {

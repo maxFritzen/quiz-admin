@@ -16,9 +16,9 @@ class Question extends React.Component {
   }
 
   handleInputChange = (e, index) => {
-    const value = e.target.value;
-    const questionIndex = this.props.index;
-    this.props.onAlernativeInput(value, index, questionIndex);
+    // const value = e.target.value;
+    // const questionIndex = this.props.index;
+    this.props.onAlernativeInput(e.target.value, index, this.props.index);
   }
 
   handleSelectChange = (e) => {
