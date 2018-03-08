@@ -2,7 +2,7 @@ import React from 'react';
 
 const Select = (props) => (
   <select
-    value={props.selectValue === '' ? 'no-value' : props.selectValue}
+    value={props.correctAlternative === '' ? 'no-value' : props.correctAlternative}
     onChange={props.handleChange}
     >
     <option value='no-value'>Choose Correct Answer</option>

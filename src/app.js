@@ -6,12 +6,11 @@ import './styles/styles.scss';
 
 import Form from './components/Form'
 import LoadingPage from './components/LoadingPage';
-//import TestForm from './playground/TestForm';
 import rootReducer from './reducers/rootReducer';
 
 const store = createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // For testing in browser
 );
 const App = () => (
   <Provider store={store}>
