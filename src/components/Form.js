@@ -3,11 +3,17 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import Question from './Question';
 import { onQuestionInput, addQuestion, deleteQuestion, titleInput } from '../actions';
-import validate from './validate';
+// import validate from './validate';
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      // focus: false,
+      // blur: false
+      error: false,
+      errorMessage: 'error'
+    }
 
   }
 
@@ -16,7 +22,9 @@ class Form extends React.Component {
   };
 
   handleInputChange = (e, index) => {
+    // For question
     this.props.onChange(e.target.value, index);
+
   }
 
   remove = (index) => {
@@ -24,9 +32,47 @@ class Form extends React.Component {
   }
 
   onChange = (e) => {
+    // For title
     this.props.titleInput(e.target.value);
+
   }
 
+  // errorFunction = () => {
+  //   const error = validate(this.props.form);
+  //   if (error.title) {
+  //     return error.title;
+  //   } else {
+  //     return 'No error';
+  //   }
+  //
+  // }
+
+  // onBlur = () => {
+  //   this.setState({
+  //     blur: true,
+  //     focus: false
+  //    });
+  // }
+  // onFocus = () => {
+  //   this.setState({
+  //     focus: true,
+  //     blur: false
+  //    });
+  // }
+  onFocus = () => {
+    this.setState({
+      error: false
+    });
+  }
+
+  onBlur = () => {
+    if(!this.props.title) {
+      this.setState({
+        error: true,
+        errorMessage: 'Please enter value'
+      });
+    }
+  }
   onSubmit = (e) => {
     e.preventDefault();
     console.log('questions:', this.props.questions);
@@ -34,8 +80,7 @@ class Form extends React.Component {
 
   render() {
     console.log('render form');
-
-    validate(this.props.form);
+    // const error = validate(this.props.form);
     const questions = this.props.questions;
 
     return (
@@ -43,15 +88,18 @@ class Form extends React.Component {
         FORM
         <h3>
             <input
-            value={this.props.title}
-            onChange={(e) => this.onChange(e)}
-            placeholder="Title"
-          />
-
+              value={this.props.title}
+              onChange={(e) => this.onChange(e)}
+              placeholder="Title"
+              onBlur={this.onBlur}
+              onFocus={this.onFocus}
+            />
+          {/* {this.errorFunction()} */}
+          {/* {this.state.blur && error.title} */}
+          {this.state.error && this.state.errorMessage}
         </h3>
 
         <ul>
-
           {questions.map((question, index) => (
               <li key={index}>
                  <Question

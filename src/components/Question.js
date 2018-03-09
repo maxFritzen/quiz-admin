@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Alternative from './Alternative';
 import Select from './Select';
+import validate from './validate';
 import {
   onAlternativeInput,
   deleteAlternative,
@@ -12,12 +13,19 @@ import {
 class Question extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      // blur: false,
+      // focus: false,
+      // altBlur: false,
+      // altFocus: false
+      error: false,
+      errorMessage: 'error'
+    }
 
   }
 
   handleInputChange = (e, index) => {
-    // const value = e.target.value;
-    // const questionIndex = this.props.index;
+    // For alternative
     this.props.onAlernativeInput(e.target.value, index, this.props.index);
   }
 
@@ -33,8 +41,63 @@ class Question extends React.Component {
     this.props.deleteAlternative(index, this.props.index);
   }
 
-  render() {
+  // onBlur = (type) => {
+  //   if (type === 'question') {
+  //     this.setState({
+  //       blur: true,
+  //       focus: false
+  //      });
+  //   } else if(type === 'alt') {
+  //     this.setState({
+  //       altBlur: true,
+  //       altFocus: false
+  //     })
+  //   }
+  // }
+  //
+  // onFocus = (type) => {
+  //   console.log(type);
+  //   if (type === 'question') {
+  //     this.setState({
+  //       blur: false,
+  //       focus: true
+  //      });
+  //   } else if(type === 'alt') {
+  //
+  //     this.setState({
+  //       altBlur: false,
+  //       altFocus: true
+  //     })
+  //   }
+  // }
+  // onBlur = () => {
+  //   this.setState({
+  //     blur: true,
+  //     focus: false
+  //    });
+  // }
+  // onFocus = () => {
+  //   this.setState({
+  //     focus: true,
+  //     blur: false
+  //    });
+  // }
+  onFocus = () => {
+    this.setState({
+      error: false
+    });
+  }
 
+  onBlur = () => {
+    if(!this.props.value) {
+      this.setState({
+        error: true,
+        errorMessage: 'Please enter value'
+      });
+    }
+  }
+  render() {
+  // const error = validate(this.props.form);
   const alternatives = this.props.alternatives;
     return (
       <div>
@@ -43,7 +106,13 @@ class Question extends React.Component {
           value={this.props.value}
           onChange={(e) => this.props.onChange(e, this.props.index)}
           placeholder="Question"
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          // onFocus={() => this.onFocus('question')}
+          // onBlur={() => this.onBlur('question')}
         />
+        {/* {this.state.blur && error.question} */}
+        {this.state.error && this.state.errorMessage}
         <ul>
           {alternatives.map((alternative, index) => (
               <li key={index}>
@@ -51,7 +120,12 @@ class Question extends React.Component {
                     index={index}
                     value={this.props.alternatives[index]}
                     onChange={this.handleInputChange}
+                    onFocus={this.onFocus}
+                    onBlur={this.onBlur}
+                    // error={error.alternative}
+                    blur={this.state.altBlur}
                  />
+                 {/* {this.state.altBlur && error.alternative} */}
                 <button type="button" onClick={() => this.remove(index)}>Delete Alternative</button>
               </li>
           ))}
@@ -68,6 +142,7 @@ class Question extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  form: state.form,
   alternatives: state.form.questions[props.index].alternatives,
   correctAlternative: state.form.questions[props.index].correctAlternative
 });
