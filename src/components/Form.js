@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Question from './Question';
-import { onQuestionInput, addQuestion, deleteQuestion, titleInput, validate } from '../actions';
+import { onQuestionInput, addQuestion, deleteQuestion, titleInput, startTitleInput, validate } from '../actions';
 // import validate from './validate';
 
 class Form extends React.Component {
@@ -41,9 +41,14 @@ class Form extends React.Component {
 
 
     if(this.props.error.title) {
-      this.props.titleInput(e.target.value);
-      this.props.validate(this.props.form); //när den här skickas i onChange är title fortfarande null.
+      // This one validates after input, making sure the warning disappears
+      // when OK.
+      this.props.startTitleInput(e.target.value, this.props.form);
+      // this.props.titleInput(e.target.value);
+      // this.props.validate(this.props.form); //när den här skickas i onChange är title fortfarande null.
     } else {
+      // this.props.startTitleInput(e.target.value, this.props.form);
+      // Validation happens in local state, and only when onBlur.
       this.props.titleInput(e.target.value);
     }
   }
@@ -123,6 +128,7 @@ const mapDispatchToProps = (dispatch) => ({
   onChange: (value, index) => dispatch(onQuestionInput(value, index)),
   addQuestion: () => dispatch(addQuestion()),
   deleteQuestion: (index) => dispatch(deleteQuestion(index)),
+  startTitleInput: (value, state) => dispatch(startTitleInput(value, state)),
   titleInput: (value) => dispatch(titleInput(value)),
   validate: (value) => dispatch(validate(value))
 });

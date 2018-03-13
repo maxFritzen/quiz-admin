@@ -26,12 +26,43 @@ export const validate = (value) => {
 }
 
 // TITLE
-export const titleInput = (value) => {
-  return {
-    type: TITLEINPUT,
-    value
+export const startTitleInput = (value, state) => {
+  return function (dispatch, getState) {
+    return dispatch(titleInput(value))
+    .then(dispatch(validate(getState().form)))
+    // .then(dispatch(() => console.log(getState())))
+    // .then(() => console.log('hej'))
   }
 }
+
+export const titleInput = (value) => dispatch => {
+  return new Promise(resolve => {
+    resolve(
+      dispatch({
+        type: TITLEINPUT,
+        value
+     })
+    )
+  })
+};
+// export const titleInput = (value) => dispatch => {
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve();
+//     }, 10);
+//   }).then(() => {
+//     dispatch({
+//       type: TITLEINPUT,
+//       value
+//    });
+//   });
+// };
+// export const titleInput = (value) => {
+//   return {
+//     type: TITLEINPUT,
+//     value
+//   }
+// }
 
 // SELECT
 export const setCorrectAlternative = (value, questionIndex) => {
