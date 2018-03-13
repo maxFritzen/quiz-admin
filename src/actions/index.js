@@ -14,6 +14,16 @@ export const ADDALTERNATIVE = 'ADDALTERNATIVE';
 export const SETCORRECTALTERNATIVE = 'SETCORRECTALTERNATIVE';
 // TITLE
 export const TITLEINPUT = 'TITLEINPUT';
+// VALIDATE
+export const VALIDATE = 'VALIDATE';
+
+// VALIDATE
+export const validate = (value) => {
+  return {
+    type: VALIDATE,
+    value
+  }
+}
 
 // TITLE
 export const titleInput = (value) => {

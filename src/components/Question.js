@@ -41,47 +41,6 @@ class Question extends React.Component {
     this.props.deleteAlternative(index, this.props.index);
   }
 
-  // onBlur = (type) => {
-  //   if (type === 'question') {
-  //     this.setState({
-  //       blur: true,
-  //       focus: false
-  //      });
-  //   } else if(type === 'alt') {
-  //     this.setState({
-  //       altBlur: true,
-  //       altFocus: false
-  //     })
-  //   }
-  // }
-  //
-  // onFocus = (type) => {
-  //   console.log(type);
-  //   if (type === 'question') {
-  //     this.setState({
-  //       blur: false,
-  //       focus: true
-  //      });
-  //   } else if(type === 'alt') {
-  //
-  //     this.setState({
-  //       altBlur: false,
-  //       altFocus: true
-  //     })
-  //   }
-  // }
-  // onBlur = () => {
-  //   this.setState({
-  //     blur: true,
-  //     focus: false
-  //    });
-  // }
-  // onFocus = () => {
-  //   this.setState({
-  //     focus: true,
-  //     blur: false
-  //    });
-  // }
   onFocus = () => {
     this.setState({
       error: false
@@ -98,6 +57,7 @@ class Question extends React.Component {
   }
   render() {
   // const error = validate(this.props.form);
+
   const alternatives = this.props.alternatives;
     return (
       <div>
@@ -113,6 +73,7 @@ class Question extends React.Component {
         />
         {/* {this.state.blur && error.question} */}
         {this.state.error && this.state.errorMessage}
+        {/* {this.props.error.question[this.props.index]} */}
         <ul>
           {alternatives.map((alternative, index) => (
               <li key={index}>
@@ -132,6 +93,7 @@ class Question extends React.Component {
         </ul>
         <button type="button" onClick={this.handleAddAlternative}>Add Alternative</button>
         <Select
+          error={this.state.error}// Lägg in global error eller hur jag väljer att ha det.
           correctAlternative={this.props.correctAlternative}
           handleChange={this.handleSelectChange}
           alternatives={this.props.alternatives}
@@ -142,6 +104,7 @@ class Question extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  error: state.validate.error,
   form: state.form,
   alternatives: state.form.questions[props.index].alternatives,
   correctAlternative: state.form.questions[props.index].correctAlternative

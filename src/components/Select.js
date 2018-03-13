@@ -2,6 +2,7 @@ import React from 'react';
 
 const Select = (props) => (
   <select
+    className={`form-select ${props.error ? 'error' : ''}`}
     value={props.correctAlternative === '' ? 'no-value' : props.correctAlternative}
     onChange={props.handleChange}
     >

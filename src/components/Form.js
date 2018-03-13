@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Question from './Question';
-import { onQuestionInput, addQuestion, deleteQuestion, titleInput } from '../actions';
+import { onQuestionInput, addQuestion, deleteQuestion, titleInput, validate } from '../actions';
 // import validate from './validate';
 
 class Form extends React.Component {
@@ -31,35 +31,25 @@ class Form extends React.Component {
     this.props.deleteQuestion(index);
   }
 
-  onChange = (e) => {
-    // For title
-    this.props.titleInput(e.target.value);
-
+  test = () => {
+    console.log('testing callback');
   }
 
-  // errorFunction = () => {
-  //   const error = validate(this.props.form);
-  //   if (error.title) {
-  //     return error.title;
-  //   } else {
-  //     return 'No error';
-  //   }
-  //
-  // }
+  onChange = (e) => {
+    // For title
+    // this.props.titleInput(e.target.value);
 
-  // onBlur = () => {
-  //   this.setState({
-  //     blur: true,
-  //     focus: false
-  //    });
-  // }
-  // onFocus = () => {
-  //   this.setState({
-  //     focus: true,
-  //     blur: false
-  //    });
-  // }
+
+    if(this.props.error.title) {
+      this.props.titleInput(e.target.value);
+      this.props.validate(this.props.form); //när den här skickas i onChange är title fortfarande null.
+    } else {
+      this.props.titleInput(e.target.value);
+    }
+  }
+
   onFocus = () => {
+
     this.setState({
       error: false
     });
@@ -75,7 +65,9 @@ class Form extends React.Component {
   }
   onSubmit = (e) => {
     e.preventDefault();
-    console.log('questions:', this.props.questions);
+    // console.log('questions:', this.props.questions);
+    // validate(this.props.form);
+    this.props.validate(this.props.form);
   }
 
   render() {
@@ -97,6 +89,7 @@ class Form extends React.Component {
           {/* {this.errorFunction()} */}
           {/* {this.state.blur && error.title} */}
           {this.state.error && this.state.errorMessage}
+          {this.props.error.title}
         </h3>
 
         <ul>
@@ -120,6 +113,7 @@ class Form extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  error: state.validate.error,
   form: state.form,
   title: state.form.title,
   questions: state.form.questions
@@ -129,7 +123,8 @@ const mapDispatchToProps = (dispatch) => ({
   onChange: (value, index) => dispatch(onQuestionInput(value, index)),
   addQuestion: () => dispatch(addQuestion()),
   deleteQuestion: (index) => dispatch(deleteQuestion(index)),
-  titleInput: (value) => dispatch(titleInput(value))
+  titleInput: (value) => dispatch(titleInput(value)),
+  validate: (value) => dispatch(validate(value))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

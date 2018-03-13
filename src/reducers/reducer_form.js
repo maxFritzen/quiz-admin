@@ -39,7 +39,7 @@ export default (state = defaultState, action) => {
     return {
       ...state,
       title: action.value
-    }
+    };
     // ALTERNATIVES
     case SETCORRECTALTERNATIVE:
     return {
