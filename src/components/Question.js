@@ -99,6 +99,7 @@ class Question extends React.Component {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
         />
+        id: {this.props.id} 
         {this.state.error && this.state.errorMessage}
         {/* {error} */}
         {/* {this.props.error.questions[0].question} */}

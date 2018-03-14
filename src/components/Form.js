@@ -18,8 +18,15 @@ class Form extends React.Component {
   }
 
   handleAddQuestion = () => {
-    this.props.addQuestion();
+    const l  = this.props.questions.length
+    const lastId = this.props.questions[l - 1].id;
+    const parsed = parseInt(lastId);
+    console.log(lastId);
+    this.props.addQuestion(parsed); //
   };
+  // handleAddQuestion = () => {
+  //   this.props.addQuestion();
+  // };
 
   handleInputChange = (e, index) => {
     // For question
@@ -94,6 +101,7 @@ class Form extends React.Component {
           {questions.map((question, index) => (
               <li key={index}>
                  <Question
+                    id={questions[index].id} //NY
                     index={index} // Används i onChange
                     value={this.props.questions[index].question}
                     onChange={this.handleInputChange}
@@ -119,7 +127,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   questionInput: (value, index) => dispatch(questionInput(value, index)),
-  addQuestion: () => dispatch(addQuestion()),
+  addQuestion: (lastId) => dispatch(addQuestion(lastId)), //NY
+  // addQuestion: () => dispatch(addQuestion()),
   deleteQuestion: (index) => dispatch(deleteQuestion(index)),
   validateInput: (dispatchToValidate, value) => dispatch(validateInput(dispatchToValidate, value)),
   titleInput: (value) => dispatch(titleInput(value)),

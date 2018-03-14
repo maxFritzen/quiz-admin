@@ -151,10 +151,20 @@ export const questionInput = (value, index) => dispatch => {
 //     index
 //   }
 // }
-
-export const addQuestion = () => {
+const generateId = (x) => {
+  return x + 1;
+}
+export const addQuestion = (lastId) => {
+  const id = generateId(lastId);
+  const newQuestion = {
+    id: id,
+    question: '',
+    alternatives:['', ''],
+    correctAlternative: ''
+  }
   return {
-    type: ADDQUESTION
+    type: ADDQUESTION,
+    newQuestion
   }
 }
 
