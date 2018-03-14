@@ -3,8 +3,14 @@ import validate from '../components/validate';
 
 const initialState = {
   error: {
-    // question:[],
-    // title: ''
+    questions: [
+       {
+        "question": "",
+        "alternatives": ["", ""],
+        "correctAlternative": ""
+      }
+    ],
+    title: ''
   }
 }
 export default (state = initialState, action) => {

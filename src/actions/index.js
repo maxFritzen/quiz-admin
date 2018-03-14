@@ -26,14 +26,39 @@ export const validate = (value) => {
 }
 
 // TITLE
-export const startTitleInput = (value, state) => {
+export const validateInput = (dispatchToValidate, value, index, questionIndex) => {
   return function (dispatch, getState) {
-    return dispatch(titleInput(value))
-    .then(dispatch(validate(getState().form)))
+    switch (dispatchToValidate) {
+      case 'title':
+        return (
+          dispatch(titleInput(value))
+          .then(dispatch(validate(getState().form)))
+        )
+      case 'question':
+        return (
+          dispatch(questionInput(value, index))
+          .then(dispatch(validate(getState().form)))
+        )
+      case 'alternative':
+        return (
+          dispatch(alternativeInput(value, index, questionIndex))
+          .then(dispatch(validate(getState().form)))
+        )
+      default: return;
+    }
+
     // .then(dispatch(() => console.log(getState())))
     // .then(() => console.log('hej'))
   }
 }
+// export const validateTitleInput = (value) => {
+//   return function (dispatch, getState) {
+//     return dispatch(titleInput(value))
+//     .then(dispatch(validate(getState().form)))
+//     // .then(dispatch(() => console.log(getState())))
+//     // .then(() => console.log('hej'))
+//   }
+// }
 
 export const titleInput = (value) => dispatch => {
   return new Promise(resolve => {
@@ -73,14 +98,26 @@ export const setCorrectAlternative = (value, questionIndex) => {
   }
 }
 // ALTERNATIVES
-export const onAlternativeInput = (value, index, questionIndex) => {
-  return {
-    type: ONALTERNATIVEINPUT,
-    value,
-    index,
-    questionIndex
-  }
-}
+export const alternativeInput = (value, index, questionIndex) => dispatch => {
+  return new Promise(resolve => {
+    resolve(
+      dispatch({
+        type: ONALTERNATIVEINPUT,
+            value,
+            index,
+            questionIndex
+     })
+    )
+  })
+};
+// export const alternativeInput = (value, index, questionIndex) => {
+//   return {
+//     type: ONALTERNATIVEINPUT,
+//     value,
+//     index,
+//     questionIndex
+//   }
+// }
 export const deleteAlternative = (index, questionIndex) => {
   return {
     type: DELETEALTERNATIVE,
@@ -96,13 +133,24 @@ export const addAlternative = (questionIndex) => {
 }
 
 // QUESTIONS
-export const onQuestionInput = (value, index) => {
-  return {
-    type: ONQUESTIONINPUT,
-    value,
-    index
-  }
-}
+export const questionInput = (value, index) => dispatch => {
+  return new Promise(resolve => {
+    resolve(
+      dispatch({
+        type: ONQUESTIONINPUT,
+            value,
+            index
+     })
+    )
+  })
+};
+// export const questionInput = (value, index) => {
+//   return {
+//     type: ONQUESTIONINPUT,
+//     value,
+//     index
+//   }
+// }
 
 export const addQuestion = () => {
   return {

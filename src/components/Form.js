@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Question from './Question';
-import { onQuestionInput, addQuestion, deleteQuestion, titleInput, startTitleInput, validate } from '../actions';
+import { questionInput, addQuestion, deleteQuestion, titleInput, validateInput, validate } from '../actions';
 // import validate from './validate';
 
 class Form extends React.Component {
@@ -23,7 +23,7 @@ class Form extends React.Component {
 
   handleInputChange = (e, index) => {
     // For question
-    this.props.onChange(e.target.value, index);
+    this.props.questionInput(e.target.value, index);
 
   }
 
@@ -37,24 +37,18 @@ class Form extends React.Component {
 
   onChange = (e) => {
     // For title
-    // this.props.titleInput(e.target.value);
-
 
     if(this.props.error.title) {
       // This one validates after input, making sure the warning disappears
       // when OK.
-      this.props.startTitleInput(e.target.value, this.props.form);
-      // this.props.titleInput(e.target.value);
-      // this.props.validate(this.props.form); //när den här skickas i onChange är title fortfarande null.
+      this.props.validateInput('title', e.target.value);
     } else {
-      // this.props.startTitleInput(e.target.value, this.props.form);
       // Validation happens in local state, and only when onBlur.
       this.props.titleInput(e.target.value);
     }
   }
 
   onFocus = () => {
-
     this.setState({
       error: false
     });
@@ -91,8 +85,7 @@ class Form extends React.Component {
               onBlur={this.onBlur}
               onFocus={this.onFocus}
             />
-          {/* {this.errorFunction()} */}
-          {/* {this.state.blur && error.title} */}
+
           {this.state.error && this.state.errorMessage}
           {this.props.error.title}
         </h3>
@@ -125,10 +118,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onChange: (value, index) => dispatch(onQuestionInput(value, index)),
+  questionInput: (value, index) => dispatch(questionInput(value, index)),
   addQuestion: () => dispatch(addQuestion()),
   deleteQuestion: (index) => dispatch(deleteQuestion(index)),
-  startTitleInput: (value, state) => dispatch(startTitleInput(value, state)),
+  validateInput: (dispatchToValidate, value) => dispatch(validateInput(dispatchToValidate, value)),
   titleInput: (value) => dispatch(titleInput(value)),
   validate: (value) => dispatch(validate(value))
 });

@@ -4,20 +4,18 @@ import Alternative from './Alternative';
 import Select from './Select';
 import validate from './validate';
 import {
-  onAlternativeInput,
+  questionInput,
+  alternativeInput,
   deleteAlternative,
   addAlternative,
-  setCorrectAlternative
+  setCorrectAlternative,
+  validateInput
  } from '../actions';
 
 class Question extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // blur: false,
-      // focus: false,
-      // altBlur: false,
-      // altFocus: false
       error: false,
       errorMessage: 'error'
     }
@@ -26,7 +24,7 @@ class Question extends React.Component {
 
   handleInputChange = (e, index) => {
     // For alternative
-    this.props.onAlernativeInput(e.target.value, index, this.props.index);
+    this.props.alternativeInput(e.target.value, index, this.props.index);
   }
 
   handleSelectChange = (e) => {
@@ -41,11 +39,7 @@ class Question extends React.Component {
     this.props.deleteAlternative(index, this.props.index);
   }
 
-  onFocus = () => {
-    this.setState({
-      error: false
-    });
-  }
+
 
   onBlur = () => {
     if(!this.props.value) {
@@ -55,38 +49,70 @@ class Question extends React.Component {
       });
     }
   }
+
+  onChange = (e, index) => {
+
+      if(this.props.error.question[this.props.index]) {
+        // This one validates after input, making sure the warning disappears
+        // when OK.
+        this.props.validateInput('question', e.target.value, index);
+      } else {
+      // Validation happens in local state, and only when onBlur.
+      this.props.questionInput(e.target.value, index);
+    }
+  }
+  //   if(this.props.error.question) {
+  //     if(this.props.error.question[this.props.index]) {
+  //       // This one validates after input, making sure the warning disappears
+  //       // when OK.
+  //       this.props.validateInput('question', e.target.value, index);
+  //     }
+  //
+  //   } else {
+  //     // Validation happens in local state, and only when onBlur.
+  //     this.props.questionInput(e.target.value, index);
+  //   }
+  // }
+
+  onFocus = () => {
+    this.setState({
+      error: false
+    });
+  }
+
   render() {
-  // const error = validate(this.props.form);
 
   const alternatives = this.props.alternatives;
+  // const error = this.props.error.questions.map((item, index) => {
+  //   if(this.props.error.questions[index].question) {
+  //     return error;
+  //   }
+  // })
     return (
       <div>
         <h4>Question</h4>
         <input
           value={this.props.value}
-          onChange={(e) => this.props.onChange(e, this.props.index)}
+          onChange={(e) => this.onChange(e, this.props.index)}
+          // onChange={(e) => this.props.onChange(e, this.props.index)}
           placeholder="Question"
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          // onFocus={() => this.onFocus('question')}
-          // onBlur={() => this.onBlur('question')}
         />
-        {/* {this.state.blur && error.question} */}
         {this.state.error && this.state.errorMessage}
-        {/* {this.props.error.question[this.props.index]} */}
+        {/* {error} */}
+        {/* {this.props.error.questions[0].question} */}
+        {/* {this.props.error.question && this.props.error.question[this.props.index]} */}
         <ul>
           {alternatives.map((alternative, index) => (
               <li key={index}>
                  <Alternative
                     index={index}
                     value={this.props.alternatives[index]}
-                    onChange={this.handleInputChange}
-                    onFocus={this.onFocus}
-                    onBlur={this.onBlur}
+                    questionIndex={this.props.index}
+                    // onChange={this.handleInputChange}
                     // error={error.alternative}
-                    blur={this.state.altBlur}
                  />
-                 {/* {this.state.altBlur && error.alternative} */}
                 <button type="button" onClick={() => this.remove(index)}>Delete Alternative</button>
               </li>
           ))}
@@ -111,10 +137,12 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onAlernativeInput: (value, index, questionIndex) => dispatch(onAlternativeInput(value, index, questionIndex)),
+  questionInput: (value, index) => dispatch(questionInput(value, index)),
+  alternativeInput: (value, index, questionIndex) => dispatch(alternativeInput(value, index, questionIndex)),
   deleteAlternative: (index, questionIndex) => dispatch(deleteAlternative(index, questionIndex)),
   addAlternative: (questionIndex) => dispatch(addAlternative(questionIndex)),
-  setCorrectAlternative: (value, questionIndex) => dispatch(setCorrectAlternative(value, questionIndex))
+  setCorrectAlternative: (value, questionIndex) => dispatch(setCorrectAlternative(value, questionIndex)),
+  validateInput: (dispatchToValidate, value, index) => dispatch(validateInput(dispatchToValidate, value, index)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
