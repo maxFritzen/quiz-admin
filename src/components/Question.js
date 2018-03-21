@@ -61,18 +61,7 @@ class Question extends React.Component {
       this.props.questionInput(e.target.value, index);
     }
   }
-  //   if(this.props.error.question) {
-  //     if(this.props.error.question[this.props.index]) {
-  //       // This one validates after input, making sure the warning disappears
-  //       // when OK.
-  //       this.props.validateInput('question', e.target.value, index);
-  //     }
-  //
-  //   } else {
-  //     // Validation happens in local state, and only when onBlur.
-  //     this.props.questionInput(e.target.value, index);
-  //   }
-  // }
+
 
   onFocus = () => {
     this.setState({
@@ -83,37 +72,20 @@ class Question extends React.Component {
   render() {
 
   const alternatives = this.props.alternatives;
-  // const error = this.props.error.questions.map((item, index) => {
-  //   if(this.props.error.questions[index].question) {
-  //     return error;
-  //   }
-  // })
-  let error;
-  // if (this.props.error.questions[this.props.index]) {
-  //   error = this.props.error.questions[this.props.index].id === this.props.id ? 'Errorrrr' : 'Nooo error';
-  // }
-  // const error = ((this.props.error.questions[this.props.index]) && (this.props.error.questions[this.props.index].id === this.props.id))
-  //   ?
-  //   this.props.error.questions[this.props.index].question
-  //   :
-  //   'No error'
+
     return (
       <div>
         <h4>Question</h4>
         <input
           value={this.props.value}
           onChange={(e) => this.onChange(e, this.props.index)}
-          // onChange={(e) => this.props.onChange(e, this.props.index)}
           placeholder="Question"
           onFocus={this.onFocus}
           onBlur={this.onBlur}
         />
         id: {this.props.id}
         {this.state.error && this.state.errorMessage}
-        {/* {error} */}
-        {/* {this.props.error.questions[0].question} */}
-        {/* {this.props.error.questions[this.props.index] && this.props.error.questions[this.props.index].question} */}
-        {/* {error} */}
+
         {this.props.error.questions[this.props.id] && this.props.error.questions[this.props.id].question}
         <ul>
           {alternatives.map((alternative, index) => (
@@ -122,8 +94,7 @@ class Question extends React.Component {
                     index={index}
                     value={this.props.alternatives[index]}
                     questionIndex={this.props.index}
-                    // onChange={this.handleInputChange}
-                    // error={error.alternative}
+
                  />
                 <button type="button" onClick={() => this.remove(index)}>Delete Alternative</button>
               </li>

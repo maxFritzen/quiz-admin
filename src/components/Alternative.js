@@ -34,16 +34,6 @@ class Alternative extends React.Component {
       // Validation happens in local state, and only when onBlur.
       this.props.alternativeInput(e.target.value, index, this.props.questionIndex);
     }
-    // if(this.props.error.alternative) {
-    //   if(this.props.error.alternative[this.props.index]) {
-    //       // This one validates after input, making sure the warning disappears
-    //       // when OK.
-    //       this.props.validateInput(e.target.value, 'alternative');
-    //     }
-    //   } else {
-    //   // Validation happens in local state, and only when onBlur.
-    //   this.props.alternativeInput(e.target.value, index, this.props.questionIndex);
-    // }
   }
 
   onFocus = () => {
@@ -58,13 +48,11 @@ class Alternative extends React.Component {
         <input
           value={this.props.value}
           onChange={(e) => this.onChange(e, this.props.index)}
-          // onChange={(e) => this.props.onChange(e, this.props.index)}
           placeholder="Alternative"
           onFocus={this.onFocus}
           onBlur={this.onBlur}
         />
         {this.state.error && this.state.errorMessage}
-        {/* {this.props.error.questions[this.props.questionIndex] && this.props.error.questions[this.props.questionIndex].alternatives[this.props.index]} */}
 
       </div>
     );
