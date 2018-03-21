@@ -3,20 +3,14 @@ import validate from '../components/validate';
 
 const initialState = {
   error: {
-    questions: [
-       {
-        "question": "",
-        "alternatives": ["", ""],
-        "correctAlternative": ""
-      }
-    ],
+    questions: {},
     title: ''
   }
 }
 export default (state = initialState, action) => {
   switch (action.type) {
     case VALIDATE:
-    console.log('VALIDATE:');
+    console.log('VALIDATE:', action.value);
     const error = validate(action.value);
     return {
       error

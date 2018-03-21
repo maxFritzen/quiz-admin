@@ -26,9 +26,7 @@ class Alternative extends React.Component {
   }
 
   onChange = (e, index) => {
-    // For title
-
-      if(this.props.error.alternative[this.props.index]) {
+      if(this.props.error.questions[this.props.questionIndex]) {
           // This one validates after input, making sure the warning disappears
           // when OK.
           this.props.validateInput('alternative', e.target.value, index, this.props.questionIndex);

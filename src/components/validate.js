@@ -1,13 +1,8 @@
 const validate = (values) => {
   // console.log(values);
-  const errors = {
-    questions: [
-       {
-        "question": "",
-        "alternatives": ["", ""],
-        "correctAlternative": ""
-      }
-    ]
+  let errors = {
+    // questions: {}
+    // questions: []
   };
   // const errors = {
   //   question: [],
@@ -19,8 +14,31 @@ const validate = (values) => {
 
   values.questions.map((item, index) => {
     if(!item.question){
-      errors.questions[index].question = 'Please enter a question'
+      const id = (index + 1).toString(); 
+      //push new object into questions[index]
+      errors = {
+        ...errors,
+        questions: {
+          ...errors.questions,
+          [id]: {
+            question:'PLEASE ENTER A QUESTION'
+          }
+        }
+      }
+
+      // errors.questions.push({
+      //   id: (index + 1).toString(), // Måste kolla så rätt fråga får error...
+      //   question: 'please enter a question'
+      // });
+      // errors.questions[index].question = 'Please enter a question'
+      // find id   ???
+      // console.log(item.id);
     }
+    item.alternatives.map((alternative, index) => {
+      if(!alternative) {
+        console.log('what');
+      }
+    })
   });
     // values.questions[index].alternatives.map((element, i) => {
     //   if(!element) {

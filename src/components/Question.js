@@ -52,7 +52,7 @@ class Question extends React.Component {
 
   onChange = (e, index) => {
 
-      if(this.props.error.question[this.props.index]) {
+      if(this.props.error.questions[this.props.index]) {
         // This one validates after input, making sure the warning disappears
         // when OK.
         this.props.validateInput('question', e.target.value, index);
@@ -88,6 +88,15 @@ class Question extends React.Component {
   //     return error;
   //   }
   // })
+  let error;
+  // if (this.props.error.questions[this.props.index]) {
+  //   error = this.props.error.questions[this.props.index].id === this.props.id ? 'Errorrrr' : 'Nooo error';
+  // }
+  // const error = ((this.props.error.questions[this.props.index]) && (this.props.error.questions[this.props.index].id === this.props.id))
+  //   ?
+  //   this.props.error.questions[this.props.index].question
+  //   :
+  //   'No error'
     return (
       <div>
         <h4>Question</h4>
@@ -99,11 +108,13 @@ class Question extends React.Component {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
         />
-        id: {this.props.id} 
+        id: {this.props.id}
         {this.state.error && this.state.errorMessage}
         {/* {error} */}
         {/* {this.props.error.questions[0].question} */}
-        {/* {this.props.error.question && this.props.error.question[this.props.index]} */}
+        {/* {this.props.error.questions[this.props.index] && this.props.error.questions[this.props.index].question} */}
+        {/* {error} */}
+        {this.props.error.questions[this.props.id] && this.props.error.questions[this.props.id].question}
         <ul>
           {alternatives.map((alternative, index) => (
               <li key={index}>

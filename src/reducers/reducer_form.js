@@ -41,7 +41,7 @@ const defaultState = {
         correctAlternative: ""
       }
   ],
- questionIds: ["question1", "question2"]
+ questionIds: ["question1", "question2"] // Vad är de här till?
  //
  // alternatives: [
  //   {
