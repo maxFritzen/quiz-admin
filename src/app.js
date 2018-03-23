@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import thunkMiddleware from 'redux-thunk';
 import './styles/styles.scss';
 
 import Form from './components/Form'
+import Form_added from './components/Form_added'
 import LoadingPage from './components/LoadingPage';
 import rootReducer from './reducers/rootReducer';
 
@@ -19,9 +21,14 @@ const store = createStore(
 
 const App = () => (
   <Provider store={store}>
-    <div>
-      <Form />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/form-added" component={Form_added} />
+        <Route path="/" component={Form} />
+        <Route />
+      </Switch>
+    </BrowserRouter>
+
   </Provider>
 );
 

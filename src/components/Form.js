@@ -2,15 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Question from './Question';
-import { questionInput, addQuestion, deleteQuestion, titleInput, validateInput, validate } from '../actions';
+import { questionInput, addQuestion, deleteQuestion, titleInput, validateInput, validate, addForm } from '../actions';
 // import validate from './validate';
 
 class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // focus: false,
-      // blur: false
       error: false,
       errorMessage: 'error'
     }
@@ -24,9 +22,7 @@ class Form extends React.Component {
     console.log(lastId);
     this.props.addQuestion(parsed); //
   };
-  // handleAddQuestion = () => {
-  //   this.props.addQuestion();
-  // };
+
 
   handleInputChange = (e, index) => {
     // For question
@@ -38,19 +34,15 @@ class Form extends React.Component {
     this.props.deleteQuestion(index);
   }
 
-  test = () => {
-    console.log('testing callback');
-  }
-
   onChange = (e) => {
     // For title
-
     if(this.props.error.title) {
+      // If save-button have been clicked and errors occured.
       // This one validates after input, making sure the warning disappears
       // when OK.
       this.props.validateInput('title', e.target.value);
     } else {
-      // Validation happens in local state, and only when onBlur.
+      // Validation happens first in local state, and only when onBlur.
       this.props.titleInput(e.target.value);
     }
   }
@@ -71,14 +63,23 @@ class Form extends React.Component {
   }
   onSubmit = (e) => {
     e.preventDefault();
-    // console.log('questions:', this.props.questions);
-    // validate(this.props.form);
-    this.props.validate(this.props.form);
+    this.props.addForm(this.props.form, () => { // REMOVE THIS WHEN DONE WITH TESTING
+      console.log(' form added, this is in Form.js');
+      this.props.history.push('/form-added');
+    });
+    if(!this.props.error.questions && this.props.error.title) {
+      this.props.addForm(this.props.form, () => {
+        console.log(' form added, this is in Form.js');
+        this.props.history.push('/form-added');
+      });
+    } else {
+      this.props.validate(this.props.form);
+    }
+
   }
 
   render() {
-    console.log('render form');
-    // const error = validate(this.props.form);
+
     const questions = this.props.questions;
 
     return (
@@ -113,6 +114,7 @@ class Form extends React.Component {
         </ul>
         <button type="button" onClick={this.handleAddQuestion}>Add Question</button>
         <button type="submit">Save</button>
+        <p>{this.props.errorMessage}</p>
       </form>
     );
   }
@@ -120,6 +122,7 @@ class Form extends React.Component {
 
 const mapStateToProps = (state) => ({
   error: state.validate.error,
+  errorMessage: state.errorMessage.message,
   form: state.form,
   title: state.form.title,
   questions: state.form.questions
@@ -132,6 +135,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteQuestion: (index) => dispatch(deleteQuestion(index)),
   validateInput: (dispatchToValidate, value) => dispatch(validateInput(dispatchToValidate, value)),
   titleInput: (value) => dispatch(titleInput(value)),
+  addForm: (form, callback) => dispatch(addForm(form, callback)),
   validate: (value) => dispatch(validate(value))
 });
 

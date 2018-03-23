@@ -26,7 +26,7 @@ class Alternative extends React.Component {
   }
 
   onChange = (e, index) => {
-      if(this.props.error.questions[this.props.questionIndex]) {
+      if(this.props.error.questions[this.props.questionIndex + 1]) { // changed questions into object with id instead of index.
           // This one validates after input, making sure the warning disappears
           // when OK.
           this.props.validateInput('alternative', e.target.value, index, this.props.questionIndex);
@@ -53,7 +53,7 @@ class Alternative extends React.Component {
           onBlur={this.onBlur}
         />
         {this.state.error && this.state.errorMessage}
-
+        {this.props.error.questions[this.props.questionIndex + 1] && this.props.error.questions[this.props.questionIndex + 1].alternatives[this.props.index]}
       </div>
     );
   }

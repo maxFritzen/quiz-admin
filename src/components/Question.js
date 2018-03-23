@@ -102,7 +102,7 @@ class Question extends React.Component {
         </ul>
         <button type="button" onClick={this.handleAddAlternative}>Add Alternative</button>
         <Select
-          error={this.state.error}// Lägg in global error eller hur jag väljer att ha det.
+          error={this.state.error || (this.props.error.questions[this.props.id] && this.props.error.questions[this.props.id].correctAlternative)}
           correctAlternative={this.props.correctAlternative}
           handleChange={this.handleSelectChange}
           alternatives={this.props.alternatives}

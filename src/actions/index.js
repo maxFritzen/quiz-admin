@@ -17,6 +17,29 @@ export const TITLEINPUT = 'TITLEINPUT';
 // VALIDATE
 export const VALIDATE = 'VALIDATE';
 
+export const ERRORMSG = 'ERRORMSG';
+
+// Add form to database
+export const addForm = (form, callback) => {
+  console.log('addform');
+  return (dispatch, getState) => {
+    return database.ref(`quiz/${form.title}`).push(form).then((ref) => {
+      console.log('form added');
+      callback();
+    }).catch((e) => {
+        console.log('ERROR:', e.message);
+        return (dispatch(errorMessage(e.message)));
+    });
+  }
+}
+
+const errorMessage = (message) => {
+  return {
+    type: ERRORMSG,
+    message
+  }
+}
+
 // VALIDATE
 export const validate = (value) => {
   return {
@@ -46,19 +69,9 @@ export const validateInput = (dispatchToValidate, value, index, questionIndex) =
         )
       default: return;
     }
-
-    // .then(dispatch(() => console.log(getState())))
-    // .then(() => console.log('hej'))
   }
 }
-// export const validateTitleInput = (value) => {
-//   return function (dispatch, getState) {
-//     return dispatch(titleInput(value))
-//     .then(dispatch(validate(getState().form)))
-//     // .then(dispatch(() => console.log(getState())))
-//     // .then(() => console.log('hej'))
-//   }
-// }
+
 
 export const titleInput = (value) => dispatch => {
   return new Promise(resolve => {
@@ -70,24 +83,6 @@ export const titleInput = (value) => dispatch => {
     )
   })
 };
-// export const titleInput = (value) => dispatch => {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve();
-//     }, 10);
-//   }).then(() => {
-//     dispatch({
-//       type: TITLEINPUT,
-//       value
-//    });
-//   });
-// };
-// export const titleInput = (value) => {
-//   return {
-//     type: TITLEINPUT,
-//     value
-//   }
-// }
 
 // SELECT
 export const setCorrectAlternative = (value, questionIndex) => {
@@ -110,14 +105,7 @@ export const alternativeInput = (value, index, questionIndex) => dispatch => {
     )
   })
 };
-// export const alternativeInput = (value, index, questionIndex) => {
-//   return {
-//     type: ONALTERNATIVEINPUT,
-//     value,
-//     index,
-//     questionIndex
-//   }
-// }
+
 export const deleteAlternative = (index, questionIndex) => {
   return {
     type: DELETEALTERNATIVE,
@@ -144,13 +132,7 @@ export const questionInput = (value, index) => dispatch => {
     )
   })
 };
-// export const questionInput = (value, index) => {
-//   return {
-//     type: ONQUESTIONINPUT,
-//     value,
-//     index
-//   }
-// }
+
 const generateId = (x) => {
   return x + 1;
 }
@@ -174,15 +156,3 @@ export const deleteQuestion = (index) => {
     index
   }
 }
-
-
-// export const CREATE_QUIZ = 'CREATE_QUIZ';
-//
-// export const createQuiz = (values) => {
-//   console.log('createQuiz values:', values);
-//    return database.ref('quiz').push({
-//     name: values.quizName,
-//     questions: values.questions
-//   })
-//   .then((ref) => console.log('key:', ref.key));
-// }
