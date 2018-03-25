@@ -6,7 +6,7 @@ export default (state = {message: ''}, action) => {
       console.log('errormessage:', action.message);
       return {
           ...state,
-          message: action.message
+          message: 'Something went wrong, try again or try changing the title to something else'//action.message
         }
     default: return state;
   }
