@@ -28,7 +28,6 @@ const App = () => (
         <Route />
       </Switch>
     </BrowserRouter>
-
   </Provider>
 );
 

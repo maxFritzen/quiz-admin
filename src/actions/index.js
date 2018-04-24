@@ -23,7 +23,11 @@ export const ERRORMSG = 'ERRORMSG';
 export const addForm = (form, callback) => {
   console.log('addform');
   return (dispatch, getState) => {
-    return database.ref(`quiz/${form.title}`).push(form).then((ref) => {
+    return database.ref(`quiz//forms/${form.title}`).push(form)
+    .then(() => {
+      database.ref(`quiz/titles`).push(form.title)
+    })
+    .then((ref) => {
       console.log('form added');
       callback();
     }).catch((e) => {
